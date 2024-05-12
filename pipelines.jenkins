@@ -1,0 +1,49 @@
+pipeline {
+    agent any //any agent that will be available
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the code from your version control system (e.g., Git)
+                git 'https://github.com/NidhiShree123/devOps_assignment_bits.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Install any dependencies (if needed)
+                sh 'pip install -r requirements.txt'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Run tests (if any)
+                sh 'python -m unittest discover'
+            }
+        }
+
+        stage('Compile') {
+            steps {
+                // Python doesn't compile like languages such as Java or C++, but you can run any static analysis or code formatting tools here
+                sh 'flake8 .'
+            }
+        }
+
+        stage('Deploy') {
+            steps{
+               // 
+            }
+        }
+    }
+
+    post {
+        success {
+            // Send success notification (e.g., email, Slack)
+            echo 'Build successful! Send success notification.'
+        }
+        failure {
+            // Send failure notification (e.g., email, Slack)
+            echo 'Build failed! Send failure notification.'
+        }
+    }
+}
